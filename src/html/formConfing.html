@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuracion Usuario</title>
+</head>
+<body>
+    <script type="module" defer>
+        import {init} from '../js/formconfing.js';
+        window.onload = init();
+    </script>
+    <h1>Configuración</h1>
+    <form method="get">
+        <label for="Nombre">Nombre:</label>
+        <input type="text" name="Nombre" id="Nombre" required>
+        <br>
+        <label for="Apellido">Apellido:</label>
+        <input type="text" name="Apellido" id="Apellido" required>
+        <br>
+        <label for="Email">Email:</label>
+        <input type="email" name="Email" id="Email" required>
+        <br>
+        <label for="Fechanacimiento">Fecha nacimiento:</label>
+        <input type="date" name="Fechanacimiento" id="Fechanacimiento" max="2023-12-31" required>
+        <br>
+        <label for="Telefono">Nº Telefono:</label>
+        <input type="tel" name="Telefono" id="Telefono" pattern="^[6|7|8|9][0-9]{2} [0-9]{3} [0-9]{3}|^[6|7|8|9][0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}" required>
+        <br>
+        <label for="codigopostal">Codigo Postal:</label>
+        <input type="text" name="codigopostal" id="codigopostal" pattern="^([0][8])[0-9]{3}" required>
+        <br>
+        <label for="Nif">NIF:</label>
+        <input type="text" name="Nif" id="Nif" pattern="[0-9]{8}-[a-zA-Z]" required>
+        <br>
+        <label for="IBAN">IBAN:</label>
+        <input type="text" name="IBAN" id="IBAN" pattern="[A-Z]{2} [0-9]{2} [0-9]{4} [0-9]{4} [0-9]{2} [0-9]{10}" required>
+        <br>
+        <label for="Contrasenya">Contraseña:</label>
+        <input type="password" name="Contrasenya" id="Contrasenya" required>
+        <br>
+        <input type="submit" value="Guardar">
+    </form>
+</body>
+</html>

@@ -1,0 +1,67 @@
+.tablacelda {
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#reiniciar {
+    margin: 1rem;
+}
+#barConfiguracion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+}
+#perfil {
+    margin: 1rem;
+    background-image: url(https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg),
+    url(../img/icon-user.jpg);
+    background-size: cover;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+}
+#conftablero {
+    margin: 1rem;
+    background-image: url(https://cdn-icons-png.flaticon.com/512/484/484613.png),
+    url(../img/Config.png);
+    background-size: cover;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: none;
+}
+#hasganado {
+    font-size: 1.5rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: #00ff00;
+    font-weight: bold;
+    margin: 0.5rem;
+    display: none;
+}
+#hasperdido {
+    font-size: 1.5rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: #ff0000;
+    font-weight: bold;
+    margin: 0.5rem;
+    display: none;
+}
+#reiniciar {
+    font-size: 0.8rem;
+    border: 1px solid black;
+    border-radius: 12px;
+    padding: 0.6rem;
+    font-weight: bold;
+}

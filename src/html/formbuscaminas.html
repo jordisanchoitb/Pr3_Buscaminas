@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuracion Buscaminas</title>
+</head>
+<body>
+    <script type="module" defer>
+        import {init} from '../js/formbuscaminas.js';
+        window.onload = init();
+    </script>
+    <h1>Configuración</h1>
+    <div>
+        <h3>Presets</h3>
+        <button id="principiante">Principiante</button>
+        <button id="intermedio">Intermedio</button>
+        <button id="experto">Experto</button>
+    </div>
+    <br>
+    <form id="formbuscaminas" method="get">
+        <label for="Filas">Filas:</label>
+        <input type="number" name="Filas" id="Filas" min=2 value=2 required>
+        <br>
+        <label for="Columnas">Columnas:</label>
+        <input type="number" name="Columnas" id="Columnas" min=2 value=2 required>
+        <br>
+        <label for="Minas">Minas:</label>
+        <input type="number" name="Minas" id="Minas" min=1 value=1 required>
+        <br>
+        <input type="submit" value="Guardar">
+    </form>
+</body>
+</html>
