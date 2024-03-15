@@ -3,20 +3,48 @@ import { Jugador } from "./Jugador.js";
 
 let tablero;
 let jugador;
+let infojugador;
+let cookieArray
+let cookieArrayInfo;
+let jugadorInfoCookie;
+let NombreCookies;
+let ApellidoCookies;
+let NickCookies;
+let TelefonoCookies;
+let FechanacimientoCookies;
+let EmailCookies;
+let ContrasenyaCookies;
+let FilasCookies;
+let ColumnasCookies;
+let MinasCookies;
 
 export function initJuego() {
     // Inabilitar el click derecho menu
     document.oncontextmenu = function () { return false; }
+    
+    window.addEventListener("message", function (event) {
+        if (event.data === document.cookie) {
+            jugadorInfoCookie = getCookie();
+            if (jugadorInfoCookie.split(";").length === 7) {
+                CreateCookie("Filas", 14);
+                CreateCookie("Columnas", 18);
+                CreateCookie("Minas", 40);
+                jugadorInfoCookie = getCookie();
+            };
+            // Boton para abrir la ventana de configuracion del tablero lo creamos aqui
+            // para que no se pueda abrir antes de que se haya hecho el formulario del jugador
+            let botonconftablero = document.getElementById("conftablero");
+            botonconftablero.addEventListener("click", function () {
+                window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=400");
+            });
+            inicializarJuego();
+        } 
+    });  
 
     // Boton para abrir la ventana de configuracion del jugador
     let botonperfil = document.getElementById("perfil");
     botonperfil.addEventListener("click", function () {
         window.open("./src/html/formConfing.html", "Configuracion", "width=400, height=400");
-    });
-    // Boton para abrir la ventana de configuracion del tablero
-    let botonconftablero = document.getElementById("conftablero");
-    botonconftablero.addEventListener("click", function () {
-        window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=400");
     });
 
     // Boton para reiniciar el juego
@@ -25,66 +53,42 @@ export function initJuego() {
         location.reload();
     });    
 
-    //open("./formConfing.html", "Configuracion", "width=400, height=400")
+    // Verificar si la información del jugador está en las cookies
+    jugadorInfoCookie = getCookie();
+
+    if (jugadorInfoCookie) {
+        let botonconftablero = document.getElementById("conftablero");
+        botonconftablero.addEventListener("click", function () {
+            window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=400");
+        });
+        // Si hay información del jugador en las cookies, utilizarla
+        inicializarJuego();
+    } else {
+        // Si no hay información del jugador en las cookies, abrir la ventana del formulario
+        window.open("./src/html/formConfing.html", "Configuracion", "width=400, height=400");
+    }
+}
+
+export function inicializarJuego() {
+    document.getElementById("tablero").innerHTML = "";
+    cookieArray = jugadorInfoCookie.split(";");
+    cookieArrayInfo = cookieArray.map(function (cookie) {
+        return cookie.split("=");
+    });
     
-    tablero = new Tablero(5, 5, 5);
-    jugador = new Jugador("Pepe", "Perez", "pepeperez", 789987789, "1999-12-12", "1234");
-    console.log(jugador.toString());
-
-    console.log(tablero.matrizCeldas);
-    console.log("TableroMinas")
-    PrintarTableroMinasConsole(tablero);
-    console.log("TableroNumeros")
-    PrintarNumeroMinas(tablero);
+    AssignarValoresCookies(cookieArrayInfo);
+    
+    tablero = new Tablero(FilasCookies, ColumnasCookies, MinasCookies);
+    jugador = new Jugador(NombreCookies, ApellidoCookies, NickCookies, parseInt(TelefonoCookies), FechanacimientoCookies, EmailCookies, ContrasenyaCookies);
+    
     CrearTableroDom(tablero);
+        
 }
 
-function PrintarTableroMinasConsole(tablero) {
-    let matriz = [];
-    for (let i = 0; i < tablero.filas; i++) {
-        matriz[i] = [];
-        for (let j = 0; j < tablero.columnas; j++) {
-            if (tablero.matrizCeldas[i][j].mina) {
-                matriz[i][j] = "Mina";
-                // matriz[i][j] = "X";
-            } else {
-                matriz[i][j] = "NoMina";
-                // matriz[i][j] = tablero.celdas[i][j].minasAlrededor;
-            }
-        }
-    }
-    console.log(matriz);
+function getCookie() {
+    return document.cookie
 }
 
-function PrintarNumeroMinas(tablero) {
-    let matriz = [];
-    for (let i = 0; i < tablero.filas; i++) {
-        matriz[i] = [];
-        for (let j = 0; j < tablero.columnas; j++) {
-            if (tablero.matrizCeldas[i][j].mina) {
-                matriz[i][j] = "Mina";
-            } else {
-                matriz[i][j] = tablero.matrizCeldas[i][j].minasAlrededor;
-            }
-        }
-    }
-    console.log(matriz);
-}
-
-function PrintarZeldasAbiertas(tablero) {
-    let matriz = [];
-    for (let i = 0; i < tablero.filas; i++) {
-        matriz[i] = [];
-        for (let j = 0; j < tablero.columnas; j++) {
-            if (tablero.matrizCeldas[i][j].abierta) {
-                matriz[i][j] = "Abierta";
-            } else {
-                matriz[i][j] = "Cerrada";
-            }
-        }
-    }
-    console.log(matriz);
-}
 
 function CrearTableroDom(tablero) {
     let tableroDom = document.getElementById("tablero");
@@ -97,11 +101,9 @@ function CrearTableroDom(tablero) {
             celda.setAttribute("columna", j);
             celda.addEventListener("click", function () {
                 AbrirCelda(i, j, tablero);
-                console.log(`Click celda ${i} ${j}`);
             });
             celda.addEventListener("contextmenu", function () {
                 ColocarBandera(i, j, tablero);
-                console.log(`Click celda ${i} ${j}, colocar bandera`);
             });
             celda.className = "tablacelda";
             celda.style.backgroundColor = "grey";
@@ -138,13 +140,25 @@ function ActualizarAbiertas(tablero) {
                     celda.innerHTML = "M";
                     tablero.notplay = true;
                     document.getElementById("hasperdido").style.display = "block";
-                    //document.body.innerHTML += "Has perdido";
-                    
+                    //document.body.innerHTML += "Has perdido";  
                 } else {
+                    if (celda.innerHTML == "B") {
+                        celda.innerHTML = "";
+                    }
                     if (tablero.matrizCeldas[i][j].minasAlrededor != 0) {
                         celda.innerHTML = tablero.matrizCeldas[i][j].minasAlrededor;
                     }
                 }
+            }
+        }
+    }
+}
+
+function BuscarMinas(tablero) {
+    for (let i = 0; i < tablero.filas; i++) {
+        for (let j = 0; j < tablero.columnas; j++) {
+            if (tablero.matrizCeldas[i][j].mina) {
+                tablero.matrizCeldas[i][j].abierta = true;
             }
         }
     }
@@ -170,7 +184,7 @@ function ComprobarVictoria(tablero) {
 function AbrirCelda(fila, columna, tablero) {
     if (tablero.notplay) return;
     if (tablero.matrizCeldas[fila][columna].bandera) return;
-
+    
     // Mira si la celda pulsada tiene minas alrededor en caso de que no tenga significa que esta vacio y comprueba que tampoco sea una mina en ese caso se 
     // ejecuta la funcion de despejar recursivo
     if (tablero.matrizCeldas[fila][columna].minasAlrededor === 0 && !tablero.matrizCeldas[fila][columna].mina) {
@@ -178,7 +192,11 @@ function AbrirCelda(fila, columna, tablero) {
     } else {
         tablero.matrizCeldas[fila][columna].abierta = true;
     }
-
+    
+    if (tablero.matrizCeldas[fila][columna].mina) {
+        BuscarMinas(tablero);
+    }
+    
     //console.log(fila, columna, tablero.matrizCeldas[fila][columna].mina);
     ActualizarAbiertas(tablero);
     
@@ -194,70 +212,84 @@ function ColocarBandera(fila, columna, tablero) {
     ActualizarBanderas(tablero);
 }
 
-/* export function initJuego() {
-    // Inabilitar el click derecho menu
-    document.oncontextmenu = function () { return false; }
-
-    // Verificar si la información del jugador está en las cookies
-    const jugadorInfoCookie = getCookie("jugadorInfo");
-    let jugador;
-
-    if (jugadorInfoCookie) {
-        // Si hay información del jugador en las cookies, utilizarla
-        jugador = JSON.parse(jugadorInfoCookie);
-        console.log("Información del jugador obtenida de las cookies:", jugador);
-    } else {
-        // Si no hay información del jugador en las cookies, abrir la ventana del formulario
-        jugador = abrirFormulario();
-    }
-
-    // Resto del código para crear el tablero y mostrar la información del jugador
-    tablero = new Tablero(5, 5, 5);
-    console.log(jugador.toString());
-    console.log(tablero.matrizCeldas);
-    console.log("TableroMinas");
-    PrintarTableroMinasConsole(tablero);
-    console.log("TableroNumeros");
-    PrintarNumeroMinas(tablero);
-    CrearTableroDom(tablero);
-}
-
-function abrirFormulario() {
-    // Aquí debes abrir la ventana del formulario y obtener la información del jugador
-    // Puedes utilizar JavaScript para crear un formulario y mostrarlo en una ventana modal, por ejemplo
-    // Luego, guarda la información del jugador en las cookies
-
-    // Ejemplo de cómo guardar información en las cookies:
-    const jugadorInfo = {
-        nombre: "NombreDelJugador",
-        // Agrega los demás campos del jugador
-    };
-
-    setCookie("jugadorInfo", JSON.stringify(jugadorInfo), 365);  // Guarda la información por 365 días
-
-    return jugadorInfo;
-}
-
-// Funciones auxiliares para manejar cookies
-function setCookie(name, value, days) {
-    const date = new Date();
+function CreateCookie(name, value, days) {
+    var expires = "";
+    var date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + date.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    expires = "; expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + expires + "; path=/";
 }
 
-function getCookie(name) {
-    const cname = name + "=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const cookieArray = decodedCookie.split(';');
-    for (let i = 0; i < cookieArray.length; i++) {
-        let c = cookieArray[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(cname) == 0) {
-            return c.substring(cname.length, c.length);
+function AssignarValoresCookies(cookieArrayInfo) {
+    // Asignar valores de las cookies a las variables
+    // Quitando los espacios de izquierda i derecha de la string para evitar problemas de comparación
+    // usando .trimLeft().trimRight()
+    for (let i = 0; i < cookieArrayInfo.length; i++) {
+        if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Nombre") {
+            NombreCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Apellido") {
+            ApellidoCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Nick") {
+            NickCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Telefono") {
+            TelefonoCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Fechanacimiento") {
+            FechanacimientoCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Email") {
+            EmailCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Contrasenya") {
+            ContrasenyaCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Filas") {
+            FilasCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Columnas") {
+            ColumnasCookies = cookieArrayInfo[i][1];
+        } else if (cookieArrayInfo[i][0].trimLeft().trimRight() == "Minas") {
+            MinasCookies = cookieArrayInfo[i][1];
         }
     }
-    return "";
-}*/
+}
+
+function PrintarTableroMinasConsole(tablero) {
+    let matriz = [];
+    for (let i = 0; i < tablero.filas; i++) {
+        matriz[i] = [];
+        for (let j = 0; j < tablero.columnas; j++) {
+            if (tablero.matrizCeldas[i][j].mina) {
+                matriz[i][j] = "Mina";
+                // matriz[i][j] = "X";
+            } else {
+                matriz[i][j] = "NoMina";
+                // matriz[i][j] = tablero.celdas[i][j].minasAlrededor;
+            }
+        }
+    }
+    console.log(matriz);
+}
+function PrintarNumeroMinas(tablero) {
+    let matriz = [];
+    for (let i = 0; i < tablero.filas; i++) {
+        matriz[i] = [];
+        for (let j = 0; j < tablero.columnas; j++) {
+            if (tablero.matrizCeldas[i][j].mina) {
+                matriz[i][j] = "Mina";
+            } else {
+                matriz[i][j] = tablero.matrizCeldas[i][j].minasAlrededor;
+            }
+        }
+    }
+    console.log(matriz);
+}
+function PrintarZeldasAbiertas(tablero) {
+    let matriz = [];
+    for (let i = 0; i < tablero.filas; i++) {
+        matriz[i] = [];
+        for (let j = 0; j < tablero.columnas; j++) {
+            if (tablero.matrizCeldas[i][j].abierta) {
+                matriz[i][j] = "Abierta";
+            } else {
+                matriz[i][j] = "Cerrada";
+            }
+        }
+    }
+    console.log(matriz);
+}

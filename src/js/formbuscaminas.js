@@ -5,6 +5,15 @@ export function init() {
     buttonPrincipiante.addEventListener("click", () => preset(1));
     buttonIntermedio.addEventListener("click", () => preset(2));
     buttonExperto.addEventListener("click", () => preset(3));
+
+    document.getElementById("formbuscaminas").addEventListener("submit", function (event) {
+        event.preventDefault();
+        CreateCookie("Filas", document.getElementById("Filas").value);
+        CreateCookie("Columnas", document.getElementById("Columnas").value);
+        CreateCookie("Minas", document.getElementById("Minas").value);
+        window.opener.postMessage(document.cookie, "*");
+        window.close();
+    });
 }
 
 function preset(pres) {
@@ -28,4 +37,12 @@ function preset(pres) {
             minas.value = 99;
             break;
     }
+}
+
+function CreateCookie(name, value, days) {
+    var expires = "";
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + expires + "; path=/";
 }

@@ -4,16 +4,18 @@ export class Jugador {
     nick;
     telefono;
     fechaNacimiento;
+    email;
     #edad;
     contrasenya;
     score;
     fechaScore;
-    constructor(nombre, apellido, nick, telefono, fechaNacimiento, contrasenya) {
+    constructor(nombre, apellido, nick, telefono, fechaNacimiento, email, contrasenya) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.nick = nick;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
+        this.email = email;
         this.contrasenya = contrasenya;
         this.score = 0;
         this.#edad = this.calcularEdad();
