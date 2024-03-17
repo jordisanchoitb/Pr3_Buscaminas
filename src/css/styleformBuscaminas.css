@@ -1,0 +1,26 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#formbuscaminas{
+    border-top: 1px solid black;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+}
+label{
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+#configuracionTablero{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 12px;
+}
+#presets{
+    text-align: center;
+}

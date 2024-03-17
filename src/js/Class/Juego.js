@@ -3,7 +3,6 @@ import { Jugador } from "./Jugador.js";
 
 let tablero;
 let jugador;
-let infojugador;
 let cookieArray
 let cookieArrayInfo;
 let jugadorInfoCookie;
@@ -35,7 +34,7 @@ export function initJuego() {
             // para que no se pueda abrir antes de que se haya hecho el formulario del jugador
             let botonconftablero = document.getElementById("conftablero");
             botonconftablero.addEventListener("click", function () {
-                window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=400");
+                window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=500");
             });
             inicializarJuego();
         } 
@@ -44,7 +43,7 @@ export function initJuego() {
     // Boton para abrir la ventana de configuracion del jugador
     let botonperfil = document.getElementById("perfil");
     botonperfil.addEventListener("click", function () {
-        window.open("./src/html/formConfing.html", "Configuracion", "width=400, height=400");
+        window.open("./src/html/formConfing.html", "Configuracion Usuario", "width=400, height=700");
     });
 
     // Boton para reiniciar el juego
@@ -59,13 +58,13 @@ export function initJuego() {
     if (jugadorInfoCookie) {
         let botonconftablero = document.getElementById("conftablero");
         botonconftablero.addEventListener("click", function () {
-            window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=400");
+            window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=500");
         });
         // Si hay información del jugador en las cookies, utilizarla
         inicializarJuego();
     } else {
         // Si no hay información del jugador en las cookies, abrir la ventana del formulario
-        window.open("./src/html/formConfing.html", "Configuracion", "width=400, height=400");
+        window.open("./src/html/formConfing.html", "Configuracion Usuario", "width=400, height=700");
     }
 }
 
@@ -82,13 +81,11 @@ export function inicializarJuego() {
     jugador = new Jugador(NombreCookies, ApellidoCookies, NickCookies, parseInt(TelefonoCookies), FechanacimientoCookies, EmailCookies, ContrasenyaCookies);
     
     CrearTableroDom(tablero);
-        
 }
 
 function getCookie() {
     return document.cookie
 }
-
 
 function CrearTableroDom(tablero) {
     let tableroDom = document.getElementById("tablero");
@@ -140,7 +137,6 @@ function ActualizarAbiertas(tablero) {
                     celda.innerHTML = "M";
                     tablero.notplay = true;
                     document.getElementById("hasperdido").style.display = "block";
-                    //document.body.innerHTML += "Has perdido";  
                 } else {
                     if (celda.innerHTML == "B") {
                         celda.innerHTML = "";
@@ -177,7 +173,6 @@ function ComprobarVictoria(tablero) {
     if (contadorabiertas === tablero.filas * tablero.columnas - tablero.minas) {
         tablero.notplay = true;
         document.getElementById("hasganado").style.display = "block";
-        //document.body.innerHTML += "Has ganado";
     }
 }
 
@@ -193,19 +188,22 @@ function AbrirCelda(fila, columna, tablero) {
         tablero.matrizCeldas[fila][columna].abierta = true;
     }
     
+    // Si la celda pulsada es una mina se ejecuta la funcion de buscar minas que busca todas las minas del tablero
     if (tablero.matrizCeldas[fila][columna].mina) {
         BuscarMinas(tablero);
     }
     
-    //console.log(fila, columna, tablero.matrizCeldas[fila][columna].mina);
+    // Actualizar la tabla del html con las celdas abiertas
     ActualizarAbiertas(tablero);
     
-    // Actualizar la tabla del html con las celdas abiertas
+    // Comprobar si se ha ganado
     ComprobarVictoria(tablero);
 }
 
 function ColocarBandera(fila, columna, tablero) {
     if (tablero.notplay) return;
+
+    // Cambiar el estado de la bandera en función de si ya estaba puesta o no
     tablero.matrizCeldas[fila][columna].bandera = !tablero.matrizCeldas[fila][columna].bandera;
     
     // Actualizar la tabla del html con las banderas
