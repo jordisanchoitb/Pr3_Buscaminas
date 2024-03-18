@@ -30,11 +30,12 @@ export function initJuego() {
                 CreateCookie("Minas", 40);
                 jugadorInfoCookie = getCookie();
             };
+
             // Boton para abrir la ventana de configuracion del tablero lo creamos aqui
             // para que no se pueda abrir antes de que se haya hecho el formulario del jugador
             let botonconftablero = document.getElementById("conftablero");
             botonconftablero.addEventListener("click", function () {
-                window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=500");
+                window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=500, height=500");
             });
             inicializarJuego();
         } 
@@ -51,15 +52,16 @@ export function initJuego() {
     botonrefresh.addEventListener("click", function () {
         location.reload();
     });    
-
     // Verificar si la información del jugador está en las cookies
     jugadorInfoCookie = getCookie();
 
     if (jugadorInfoCookie) {
+        // Ponemos que funcione aqui el boton de la configuracion del tablero para evitar que se abra antes de que se haya hecho el formulario del jugador
         let botonconftablero = document.getElementById("conftablero");
         botonconftablero.addEventListener("click", function () {
-            window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=400, height=500");
+            window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=500, height=500");
         });
+
         // Si hay información del jugador en las cookies, utilizarla
         inicializarJuego();
     } else {
@@ -247,6 +249,8 @@ function AssignarValoresCookies(cookieArrayInfo) {
     }
 }
 
+
+// Funciones de debug
 function PrintarTableroMinasConsole(tablero) {
     let matriz = [];
     for (let i = 0; i < tablero.filas; i++) {
@@ -290,4 +294,16 @@ function PrintarZeldasAbiertas(tablero) {
         }
     }
     console.log(matriz);
+}
+function PrintarVariables() {
+    console.log("NombreCookies: " + NombreCookies);
+    console.log("ApellidoCookies: " + ApellidoCookies);
+    console.log("NickCookies: " + NickCookies);
+    console.log("TelefonoCookies: " + TelefonoCookies);
+    console.log("FechanacimientoCookies: " + FechanacimientoCookies);
+    console.log("EmailCookies: " + EmailCookies);
+    console.log("ContrasenyaCookies: " + ContrasenyaCookies);
+    console.log("FilasCookies: " + FilasCookies);
+    console.log("ColumnasCookies: " + ColumnasCookies);
+    console.log("MinasCookies: " + MinasCookies);
 }

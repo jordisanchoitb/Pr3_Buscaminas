@@ -8,9 +8,19 @@ export function init() {
 
     document.getElementById("formbuscaminas").addEventListener("submit", function (event) {
         event.preventDefault();
-        CreateCookie("Filas", document.getElementById("Filas").value);
-        CreateCookie("Columnas", document.getElementById("Columnas").value);
-        CreateCookie("Minas", document.getElementById("Minas").value);
+        let filas = document.getElementById("Filas").value;
+        let columnas = document.getElementById("Columnas").value;
+        let minas = document.getElementById("Minas").value;
+
+        // Validacion para que el numero de minas no sea mayor o igual que el numero de celdas
+        if (filas * columnas <= minas) {
+            alert("El número de minas no puede igual o mayor que el número de celdas");
+            return;
+        }
+        
+        CreateCookie("Filas", filas);
+        CreateCookie("Columnas", columnas);
+        CreateCookie("Minas", minas);
         window.opener.postMessage(document.cookie, "*");
         window.close();
     });
