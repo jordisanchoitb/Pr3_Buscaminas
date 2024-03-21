@@ -37,6 +37,7 @@ export function initJuego() {
             botonconftablero.addEventListener("click", function () {
                 window.open("./src/html/formbuscaminas.html", "Configuracion Tablero", "width=500, height=500");
             });
+
             inicializarJuego();
         } 
     });  
@@ -71,6 +72,9 @@ export function initJuego() {
 }
 
 export function inicializarJuego() {
+    document.getElementById("hasganado").style.display = "none";
+    document.getElementById("hasperdido").style.display = "none";
+    
     document.getElementById("tablero").innerHTML = "";
     cookieArray = jugadorInfoCookie.split(";");
     cookieArrayInfo = cookieArray.map(function (cookie) {
