@@ -2,7 +2,6 @@ export function init() {
     let buttonPrincipiante = document.getElementById("principiante");
     let buttonIntermedio = document.getElementById("intermedio");
     let buttonExperto = document.getElementById("experto");
-    let errorMinas = document.getElementById("errorMinas");
     buttonPrincipiante.addEventListener("click", () => preset(1));
     buttonIntermedio.addEventListener("click", () => preset(2));
     buttonExperto.addEventListener("click", () => preset(3));
@@ -66,6 +65,7 @@ function CreateCookie(name, value, days) {
 }
 
 function ErrorMinas() {
+    let errorMinas = document.getElementById("errorMinas");
     let filas = document.getElementById("Filas").value;
     let columnas = document.getElementById("Columnas").value;
     let minas = document.getElementById("Minas").value;
