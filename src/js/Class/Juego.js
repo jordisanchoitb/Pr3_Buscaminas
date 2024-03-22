@@ -87,7 +87,7 @@ export function inicializarJuego() {
     jugador = new Jugador(NombreCookies, ApellidoCookies, NickCookies, parseInt(TelefonoCookies), FechanacimientoCookies, EmailCookies, ContrasenyaCookies);
     
     CrearTableroDom(tablero);
-}
+}    
 
 function getCookie() {
     return document.cookie
