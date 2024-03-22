@@ -87,10 +87,18 @@ export function inicializarJuego() {
     jugador = new Jugador(NombreCookies, ApellidoCookies, NickCookies, parseInt(TelefonoCookies), FechanacimientoCookies, EmailCookies, ContrasenyaCookies);
     
     CrearTableroDom(tablero);
+    let helloUser = document.getElementById("helloUser");
+    helloUser.innerHTML = `Bienvenid@ ${jugador.nick}`;
+    ActualizarPuntuacion();
 }    
 
 function getCookie() {
     return document.cookie
+}
+
+function ActualizarPuntuacion() {
+    let divscoreUser = document.getElementById("divscoreUser");
+    divscoreUser.innerHTML = `Puntuación: ${jugador.score}`;
 }
 
 function CrearTableroDom(tablero) {
@@ -142,6 +150,7 @@ function ActualizarAbiertas(tablero) {
                     celda.style.backgroundColor = "red";
                     celda.className = "bomba";
                     tablero.notplay = true;
+                    jugador.score = 0;
                     document.getElementById("hasperdido").style.display = "block";
                 } else {
                     if (celda.getAttribute("class") == "bandera") {
@@ -154,6 +163,18 @@ function ActualizarAbiertas(tablero) {
             }
         }
     }
+}
+
+function MirarCeldasAbiertas(tablero) {
+    let contadorabiertas = 0;
+    for (let i = 0; i < tablero.filas; i++) {
+        for (let j = 0; j < tablero.columnas; j++) {
+            if (tablero.matrizCeldas[i][j].abierta) {
+                contadorabiertas++;
+            }
+        }
+    }
+    return contadorabiertas;
 }
 
 function BuscarMinas(tablero) {
@@ -178,6 +199,7 @@ function ComprobarVictoria(tablero) {
 
     if (contadorabiertas === tablero.filas * tablero.columnas - tablero.minas) {
         tablero.notplay = true;
+        jugador.score = MirarCeldasAbiertas(tablero)*10;
         document.getElementById("hasganado").style.display = "block";
     }
 }
@@ -204,6 +226,12 @@ function AbrirCelda(fila, columna, tablero) {
     
     // Comprobar si se ha ganado
     ComprobarVictoria(tablero);
+
+    // Actualizar la puntuación
+    if (!tablero.notplay) {
+        jugador.score = MirarCeldasAbiertas(tablero)*10;
+    }
+    ActualizarPuntuacion();
 }
 
 function ColocarBandera(fila, columna, tablero) {

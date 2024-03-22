@@ -8,7 +8,6 @@ export class Jugador {
     #edad;
     contrasenya;
     score;
-    fechaScore;
     constructor(nombre, apellido, nick, telefono, fechaNacimiento, email, contrasenya) {
         this.nombre = nombre;
         this.apellido = apellido;

@@ -79,3 +79,29 @@ body {
     width: 50px;
     height: 50px;
 }
+
+#Bienvenida {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#helloUser {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0.5rem;
+}
+
+#divscoreUser {
+    font-size: 1.5rem;
+    margin: 0.5rem;
+    align-items: center;
+}
+
+#score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    
+}
