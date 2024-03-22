@@ -8,44 +8,11 @@ export function init() {
     buttonExperto.addEventListener("click", () => preset(3));
 
     // Sirve para que se vaya actualizando el error de minas a medida que se cambian los valores de filas, columnas y minas
-    document.getElementById("Minas").addEventListener("input", function () {
-        let filas = document.getElementById("Filas").value;
-        let columnas = document.getElementById("Columnas").value;
-        let minas = document.getElementById("Minas").value;
-        if (filas * columnas <= minas) {
-            errorMinas.textContent = "El número de minas no puede igual o mayor que el número de celdas";
-            errorMinas.className = "error active";
-        } else {
-            errorMinas.textContent = "";
-            errorMinas.className = "error";
-        }
-    });
+    document.getElementById("Minas").addEventListener("input", ErrorMinas);
 
-    document.getElementById("Filas").addEventListener("input", function () {
-        let filas = document.getElementById("Filas").value;
-        let columnas = document.getElementById("Columnas").value;
-        let minas = document.getElementById("Minas").value;
-        if (filas * columnas <= minas) {
-            errorMinas.textContent = "El número de minas no puede igual o mayor que el número de celdas";
-            errorMinas.className = "error active";
-        } else {
-            errorMinas.textContent = "";
-            errorMinas.className = "error";
-        }
-    });
+    document.getElementById("Filas").addEventListener("input", ErrorMinas);
 
-    document.getElementById("Columnas").addEventListener("input", function () {
-        let filas = document.getElementById("Filas").value;
-        let columnas = document.getElementById("Columnas").value;
-        let minas = document.getElementById("Minas").value;
-        if (filas * columnas <= minas) {
-            errorMinas.textContent = "El número de minas no puede igual o mayor que el número de celdas";
-            errorMinas.className = "error active";
-        } else {
-            errorMinas.textContent = "";
-            errorMinas.className = "error";
-        }
-    });
+    document.getElementById("Columnas").addEventListener("input", ErrorMinas);
 
     document.getElementById("formbuscaminas").addEventListener("submit", function (event) {
         event.preventDefault();
@@ -96,4 +63,17 @@ function CreateCookie(name, value, days) {
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     expires = "; expires=" + date.toUTCString();
     document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function ErrorMinas() {
+    let filas = document.getElementById("Filas").value;
+    let columnas = document.getElementById("Columnas").value;
+    let minas = document.getElementById("Minas").value;
+    if (filas * columnas <= minas) {
+        errorMinas.textContent = "El número de minas no puede igual o mayor que el número de celdas";
+        errorMinas.className = "error active";
+    } else {
+        errorMinas.textContent = "";
+        errorMinas.className = "error";
+    }
 }
