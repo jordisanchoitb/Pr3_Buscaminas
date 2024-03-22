@@ -123,9 +123,9 @@ function ActualizarBanderas(tablero) {
         for (let j = 0; j < tablero.columnas; j++) {
             let celda = tabla.querySelector(`[fila="${i}"][columna="${j}"]`);
             if (tablero.matrizCeldas[i][j].bandera && !tablero.matrizCeldas[i][j].abierta) {
-                celda.innerHTML = "B";
-            } else if (celda.innerHTML == "B") {
-                celda.innerHTML = "";
+                celda.className = "bandera";
+            } else if (celda.getAttribute("class") == "bandera"){
+                celda.className = "tablacelda";
             }
         }
     }
@@ -140,12 +140,12 @@ function ActualizarAbiertas(tablero) {
                 celda.style.backgroundColor = "white";
                 if (tablero.matrizCeldas[i][j].mina) {
                     celda.style.backgroundColor = "red";
-                    celda.innerHTML = "M";
+                    celda.className = "bomba";
                     tablero.notplay = true;
                     document.getElementById("hasperdido").style.display = "block";
                 } else {
-                    if (celda.innerHTML == "B") {
-                        celda.innerHTML = "";
+                    if (celda.getAttribute("class") == "bandera") {
+                        celda.className = "tablacelda";
                     }
                     if (tablero.matrizCeldas[i][j].minasAlrededor != 0) {
                         celda.innerHTML = tablero.matrizCeldas[i][j].minasAlrededor;

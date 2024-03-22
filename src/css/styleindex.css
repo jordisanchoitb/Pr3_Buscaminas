@@ -65,3 +65,17 @@ body {
     padding: 0.6rem;
     font-weight: bold;
 }
+
+.bomba {
+    background-image: url(../img/bomba.png);
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+}
+
+.bandera {
+    background-image: url(../img/bandera.png);
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+}
