@@ -191,7 +191,8 @@ function ComprobarVictoria(tablero) {
     let contadorabiertas = 0;
     for (let i = 0; i < tablero.filas; i++) {
         for (let j = 0; j < tablero.columnas; j++) {
-            if (tablero.matrizCeldas[i][j].abierta) {
+            // Si la celda esta abierta y no es una mina para evitar contar las minas como celdas abiertas para ganar
+            if (tablero.matrizCeldas[i][j].abierta && !tablero.matrizCeldas[i][j].mina) {
                 contadorabiertas++;
             }
         }
